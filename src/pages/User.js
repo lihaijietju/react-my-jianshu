@@ -10,5 +10,8 @@ export default function User () {
     }, 1000);
   })
 
-  return <div>{date.toLocaleTimeString()}</div>
+  return (<div>
+    <span>hello,我是user页面---</span>
+    {date.toLocaleTimeString()}
+  </div>)
 }

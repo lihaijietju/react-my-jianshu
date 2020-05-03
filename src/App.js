@@ -1,17 +1,10 @@
 import React from 'react';
-import './App.css';
-import FirstTab from './pages/FirstTab';
-import Layout from './pages/Layout';
+import User from './pages/User';
 
 function App() {
   return (
-    <div className="App">
-      <Layout>
-        {{
-          tab: <FirstTab></FirstTab>,
-          name:'jakii'
-        }}
-      </Layout>
+    <div>
+       <User></User>
     </div>
   );
 }
