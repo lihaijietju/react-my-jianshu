@@ -1,5 +1,5 @@
 import React, { Component , Fragment } from 'react'
-
+import './TodoList.css'
 export default class TodoList extends Component {
   constructor(props) {
     super(props);
@@ -14,7 +14,7 @@ export default class TodoList extends Component {
     return (
       <Fragment>
         <h3>我是todolist</h3>
-        <input value={newTodo} onChange={this.changeInputValue} />
+        <input className='input-class' value={newTodo} onChange={this.changeInputValue} />
         <button onClick={this.addTodoList}>提交</button>
         <ul>
           {
