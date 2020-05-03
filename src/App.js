@@ -1,12 +1,10 @@
-import React from 'react';
-import User from './pages/User';
+import React, { Fragment} from 'react';
+import TodoList from './pages/TodoList';
 
-function App() {
+export default function App() {
   return (
-    <div>
-       <User></User>
-    </div>
+    <Fragment>
+       <TodoList></TodoList>
+    </Fragment>
   );
 }
-
-export default App;

@@ -1,14 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-// PWA progressive web application 渐进式app
-// serviceWorker会缓存之前缓存的页面，可以离线访问
-// import * as serviceWorker from './serviceWorker';
-
+// 将页面模板挂载到root dom上面
 ReactDOM.render(
   <React.StrictMode>
     <App />
   </React.StrictMode>,
   document.getElementById('root')
 );
-// serviceWorker.unregister();
