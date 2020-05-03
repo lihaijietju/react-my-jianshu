@@ -1,5 +1,6 @@
 import React, { Component , Fragment } from 'react'
-import './TodoList.css'
+import './TodoList.css';
+import TodoItem from '../components/TodoItem'
 export default class TodoList extends Component {
   constructor(props) {
     super(props);
@@ -14,16 +15,17 @@ export default class TodoList extends Component {
     return (
       <Fragment>
         <h3>我是todolist</h3>
-        <input className='input-class' value={newTodo} onChange={this.changeInputValue} />
+        <input
+          className='input-class'
+          value={newTodo}
+          onChange={this.changeInputValue} />
         <button onClick={this.addTodoList}>提交</button>
         <ul>
           {
             todoList.map((item,index) => {
               return (
                 <Fragment key={item + index}>
-                  <li onClick={this.deleteTodo.bind(this,index)}>
-                      {item}
-                  </li>
+                  <TodoItem item={item} index={index} handleClick={this.deleteTodo.bind(this,index)}></TodoItem>
                 </Fragment>
               )
             })
@@ -50,6 +52,7 @@ export default class TodoList extends Component {
   }
 
   deleteTodo = (index) => {
+    console.log(index,'index')
     let { todoList } = this.state;
     let todoListTmp = [...todoList];
     todoListTmp.splice(index, 1);
