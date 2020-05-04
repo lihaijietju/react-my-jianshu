@@ -1,6 +1,9 @@
 import React, { Component , Fragment } from 'react'
 import './TodoList.css';
 import TodoItem from '../components/TodoItem'
+import { Button,Input } from 'antd';
+import 'antd/dist/antd.css';
+
 export default class TodoList extends Component {
   constructor(props) {
     super(props);
@@ -11,26 +14,11 @@ export default class TodoList extends Component {
   }
 
   render () {
-    let { todoList, newTodo } = this.state;
     return (
       <Fragment>
         <h3>我是todolist</h3>
-        <input
-          className='input-class'
-          value={newTodo}
-          onChange={this.changeInputValue} />
-        <button onClick={this.addTodoList}>提交</button>
-        <ul>
-          {
-            todoList.map((item,index) => {
-              return (
-                <Fragment key={item + index}>
-                  <TodoItem item={item} index={index} handleClick={this.deleteTodo.bind(this,index)}></TodoItem>
-                </Fragment>
-              )
-            })
-          }
-        </ul>
+        <Input placeholder="我是holder" style={{ width: '400px', marginTop: '20px' }}></Input>
+        <Button type="primary" style={{marginLeft:'10px'}}>提交</Button>
       </Fragment>
     )
   }
