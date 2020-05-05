@@ -1,52 +1,67 @@
 import React, { Component , Fragment } from 'react'
 import './TodoList.css';
-import TodoItem from '../components/TodoItem'
-import { Button,Input } from 'antd';
+import { Button,Input,List } from 'antd';
 import 'antd/dist/antd.css';
+import store from '../store';
+import {getChangeInputValueAction,getAddTodoItemAction,getDeleteTodoItemAction} from '../store/actionCreators'
+
 
 export default class TodoList extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      todoList: ['学英语','学ying语'],
-      newTodo: ''
-    };
+    this.state = store.getState();
+    store.subscribe(this.handleStoreChange);
   }
 
   render () {
     return (
       <Fragment>
-        <h3>我是todolist</h3>
-        <Input placeholder="我是holder" style={{ width: '400px', marginTop: '20px' }}></Input>
-        <Button type="primary" style={{marginLeft:'10px'}}>提交</Button>
+        <div style={{ marginLeft:'100px',marginTop:'100px'}}>
+          <h3>我是todolist</h3>
+          <Input
+            placeholder="新增todoItem"
+            value={this.state.inputValue}
+            style={{ width: '400px', marginTop: '20px' }}
+            onChange={this.changeInputValue}
+          ></Input>
+          <Button type="primary" style={{ marginLeft: '10px' }} onClick={this.addTodoItem}>提交</Button>
+          
+          <List
+            style={{width:'400px',marginTop:'10px'}}
+            bordered
+            dataSource={this.state.list}
+            renderItem={(item,index) => (
+              <List.Item onClick={this.deleteTodo.bind(this,index)}>
+                {item}
+              </List.Item>
+            )}
+          />
+        </div>
+        
       </Fragment>
     )
   }
 
+  // 输入框值修改
   changeInputValue = (e) => {
-    this.setState({
-      newTodo: e.target.value
-    });
+    // this.setState({
+    //   inputValue: e.target.value
+    // });
+    store.dispatch(getChangeInputValueAction(e.target.value));
   }
 
-  addTodoList = () => {
-    let { todoList,newTodo } = this.state;
-    let todoListTmp = [...todoList];
-    todoListTmp.push(newTodo);
-    this.setState({
-      todoList: todoListTmp,
-      newTodo:''
-    });
+  // 新增todoItem
+  addTodoItem = () => {
+    store.dispatch(getAddTodoItemAction());
   }
 
+  // 删除item
   deleteTodo = (index) => {
-    console.log(index,'index')
-    let { todoList } = this.state;
-    let todoListTmp = [...todoList];
-    todoListTmp.splice(index, 1);
+    store.dispatch(getDeleteTodoItemAction(index));
+  }
 
-    this.setState({
-      todoList: todoListTmp
-    });
+  // store修改之后触发
+  handleStoreChange =()=> {
+    this.setState(store.getState());
   }
 }
