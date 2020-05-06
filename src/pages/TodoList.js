@@ -2,17 +2,14 @@ import React, { Component , Fragment } from 'react'
 import './TodoList.css';
 import { Button,Input,List } from 'antd';
 import 'antd/dist/antd.css';
-import store from '../store';
 import {getInitTodoList,getChangeInputValueAction,getAddTodoItemAction,getDeleteTodoItemAction} from '../store/actionCreators'
 
+import { connect } from 'react-redux';
 
-export default class TodoList extends Component {
+class TodoList extends Component {
   constructor(props) {
     super(props);
-    this.state = store.getState();
-    store.subscribe(this.handleStoreChange);
-
-    store.dispatch(getInitTodoList());
+    this.props.getInitTodoList();
   }
 
   render () {
@@ -22,45 +19,50 @@ export default class TodoList extends Component {
           <h3>我是todolist</h3>
           <Input
             placeholder="新增todoItem"
-            value={this.state.inputValue}
+            value={this.props.inputValue}
             style={{ width: '400px', marginTop: '20px' }}
-            onChange={this.changeInputValue}
+            onChange={this.props.inputValueChange}
           ></Input>
-          <Button type="primary" style={{ marginLeft: '10px' }} onClick={this.addTodoItem}>提交</Button>
+          <Button type="primary" style={{ marginLeft: '10px' }} onClick={this.props.addTodoItem}>提交</Button>
           
           <List
             style={{width:'400px',marginTop:'10px'}}
             bordered
-            dataSource={this.state.list}
+            dataSource={this.props.list}
             renderItem={(item,index) => (
-              <List.Item onClick={this.deleteTodo.bind(this,index)}>
+              <List.Item onClick={this.props.deleteTodo.bind(this,index)}>
                 {item}
               </List.Item>
             )}
           />
         </div>
-        
       </Fragment>
     )
   }
+}
 
-  // 输入框值修改
-  changeInputValue = (e) => {
-    store.dispatch(getChangeInputValueAction(e.target.value));
-  }
-
-  // 新增todoItem
-  addTodoItem = () => {
-    store.dispatch(getAddTodoItemAction());
-  }
-
-  // 删除item
-  deleteTodo = (index) => {
-    store.dispatch(getDeleteTodoItemAction(index));
-  }
-
-  // store修改之后触发
-  handleStoreChange =()=> {
-    this.setState(store.getState());
+const mapStateToProps = (state) => {
+  return {
+    inputValue: state.inputValue,
+    list: state.list
   }
 }
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    inputValueChange: (e) => {
+      dispatch(getChangeInputValueAction(e.target.value))
+    },
+    addTodoItem: () => {
+      dispatch(getAddTodoItemAction())
+    },
+    deleteTodo: (index) => {
+      dispatch(getDeleteTodoItemAction(index));
+    },
+    getInitTodoList: () => {
+      dispatch(getInitTodoList());
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TodoList);
