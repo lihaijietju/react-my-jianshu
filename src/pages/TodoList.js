@@ -3,7 +3,7 @@ import './TodoList.css';
 import { Button,Input,List } from 'antd';
 import 'antd/dist/antd.css';
 import store from '../store';
-import {getChangeInputValueAction,getAddTodoItemAction,getDeleteTodoItemAction} from '../store/actionCreators'
+import {getInitTodoList,getChangeInputValueAction,getAddTodoItemAction,getDeleteTodoItemAction} from '../store/actionCreators'
 
 
 export default class TodoList extends Component {
@@ -11,6 +11,8 @@ export default class TodoList extends Component {
     super(props);
     this.state = store.getState();
     store.subscribe(this.handleStoreChange);
+
+    store.dispatch(getInitTodoList());
   }
 
   render () {
@@ -44,9 +46,6 @@ export default class TodoList extends Component {
 
   // 输入框值修改
   changeInputValue = (e) => {
-    // this.setState({
-    //   inputValue: e.target.value
-    // });
     store.dispatch(getChangeInputValueAction(e.target.value));
   }
 
