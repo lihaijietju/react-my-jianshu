@@ -2,14 +2,19 @@
 import {CHANGE_INPUT_VALUE,ADD_TODO_ITEM,DELETE_TODO_ITEM,INIT_TODO_LIST } from '../store/actionTypes';
 
 const defaultState = {
-  inputValue: '',
-  list:[]
+  active: false
 };
 
 export default (state = defaultState, action) => {
   if (action.type === CHANGE_INPUT_VALUE) {
     const newState = JSON.parse(JSON.stringify(state));
     newState.inputValue = action.value;
+    return newState;
+  }
+
+  if (action.type === 'add_active') {
+    const newState = JSON.parse(JSON.stringify(state));
+    newState.active = !state.active;
     return newState;
   }
 
